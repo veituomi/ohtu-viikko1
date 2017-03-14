@@ -108,6 +108,6 @@ public class VarastoTest {
     public void merkkijonoksiMuuttaminenToimii() {
         assertEquals("saldo = 0.0, vielä tilaa 10.0", varasto.toString());
         varasto.lisaaVarastoon(4);
-        assertEquals("saldo = 4.0, vielä tilaa 6", varasto.toString());
+        assertEquals("saldo = 4.0, vielä tilaa 6.0", varasto.toString());
     }
 }
