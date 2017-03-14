@@ -26,8 +26,21 @@ public class VarastoTest {
     }
 
     @Test
+    public void konstruktoriTekeeTilattomanVaraston() {
+        assertEquals(0, new Varasto(-1).getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
     public void uudellaVarastollaOikeaTilavuus() {
         assertEquals(10, varasto.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void konstruktoriTekeeOikeatVarastot() {
+        assertEquals(0, new Varasto(-1, 1).getTilavuus(), vertailuTarkkuus);
+        assertEquals(1, new Varasto(1, 2).getSaldo(), vertailuTarkkuus);
+        assertEquals(0.5, new Varasto(1, 0.5).getSaldo(), vertailuTarkkuus);
+        assertEquals(0, new Varasto(1, -1).getSaldo(), vertailuTarkkuus);
     }
 
     @Test
@@ -36,6 +49,18 @@ public class VarastoTest {
 
         // saldon pitäisi olla sama kun lisätty määrä
         assertEquals(8, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void lisaysEiLisaaNegatiivista() {
+        varasto.lisaaVarastoon(-1);
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void lisaysEiYlitaTilavuutta() {
+        varasto.lisaaVarastoon(666);
+        assertEquals(10, varasto.getSaldo(), vertailuTarkkuus);
     }
 
     @Test
@@ -65,4 +90,24 @@ public class VarastoTest {
         assertEquals(4, varasto.paljonkoMahtuu(), vertailuTarkkuus);
     }
 
+    @Test
+    public void ottaminenOttaaKaikenMitäVoi() {
+        varasto.lisaaVarastoon(5);
+        assertEquals(5, varasto.otaVarastosta(7), vertailuTarkkuus);
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void ottaminenEiOtaNegatiivista() {
+        varasto.lisaaVarastoon(5);
+        assertEquals(0, varasto.otaVarastosta(-7), vertailuTarkkuus);
+        assertEquals(5, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void merkkijonoksiMuuttaminenToimii() {
+        assertEquals("saldo = 0.0, vielä tilaa 10.0", varasto.toString());
+        varasto.lisaaVarastoon(4);
+        assertEquals("saldo = 4.0, vielä tilaa 6.0", varasto.toString());
+    }
 }
